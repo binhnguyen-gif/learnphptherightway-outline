@@ -154,6 +154,7 @@ https://www.php.net/manual/en/types.comparisons.php
 # callable
 # iterable
 # 2 Special Types
+Được sử dụng dụng để dễ đọc chúng được trộn lẫn và không có giá trị
 # resource
 # null
 00:19 - Dynamically Types vs Statically Typed
@@ -166,14 +167,28 @@ print_r($companies)
 06:19 - Null Type
 06:25 - Automatic Type Detection
 07:05 - Type Hinting Example
+function sum($x, $y) {
+    return $x + $y;
+}
+
+$sum = sum(2, '3');  return string(5)
+08:22 - Type Juggling / Type Coercion
 function sum(int $x, int $y) {
     return $x + $y;
 }
 
-$sum = sum(2, '3');
-08:22 - Type Juggling / Type Coercion
+$sum = sum(2, '3'); return int(5)
+
+
+function sum(int $x, int $y) {
+     $x = 5.5;
+    return $x + $y;
+}
+
+$sum = sum(2, 3); return int(8.5)
+
 10:15 - Strict Types
-Ràng buộc kiểu dữ liệu nghiệm ngặt hơn 
+Ràng buộc kiểu dữ liệu nghiệm ngặt hơn tức là ném lỗi nếu vượt qua các type khác
 declare(strict_types=1);
 - Nó sẽ báo lỗi khi dữ liệu không hợp lệ trong hàm nào đó như ví trên sẽ báo '3' 
 - Ngoại lệ :
@@ -186,7 +201,7 @@ echo sum(3.5, 2.5);
 - Có nên sử dụng loại nghiệm ngặt và gợi ý nhập hay không phụ thuộc vào
 vào p (sử dụng loại gợi ý và đánh dấu nhiều nhất có thể)
 
-11:12 - Type Casting
+11:12 - Type Casting (Ép kiểu dữ liệu)
 $x = (int)'5';
 
 PHP Boolean Data Type 
@@ -277,7 +292,7 @@ echo $name{1}; result(error)
 $text = <<<TEXT
 Line 1
 Line 2
-Line 3 ' "
+Line 3 
 TEXT;
 echo $text; => result : Line 1 Line 2 Line 3;
 echo nl2br($text) 
@@ -391,6 +406,189 @@ PHP Operators Part 1
 -Toán tử nhị phân vì yêu cầu 2 toán hạng nếu là 3 thì là toán tử bậc 3
 00:00 - Intro
 00:47 - Arithmetic Operators (+ - * / % **)
+$x = 10;
+$y = 0;
+var_dump($x / $y); reslut => error
+var_dump(fdiv($x / $y)); result => float(INF)
+
+$x = 10.5;
+$y = 2.9;
+var_dump($x % $y);  result => 0;
+var_dump(fmod($x % $y)); => float(1.80000000000003)
+
 04:35 - Assignment Operators (= += -= *= /= %= **=)
 07:12 - String Operators (. .=)
 07:39 - Comparison Operators (== === #= <> #=== < > ...    ?? ?:)
+
+00:00 - Intro
+00:11 - Error Control Operator (@)
+- Loại bỏ bất kỳ lỗi nào từ biểu thức đó và các lỗi nó loại bỏ chủ yếu phụ
+thuộc vào cách bạn cấu hình xử lý lỗi của mình trong php
+vd:
+$x = file('foo.txt'); error file(foo.txt) ko tồn tại trong folder
+để khắc phục vấn đề trên sử dụng
+$x = @file('foo.txt'); lỗi sẽ biến mất (ko nên sử dụng trừ khi có trường hợp sử dụng thực sử tốt)
+trong một số trường hợp muốn chặn một số cuộc gọi api hoặc thứ
+
+
+01:26 - Increment / Decrement Operators (++ --)
+03:17 - Logical Operators (&& || !)
+04:52 - Logical Operators (and or xor)
+$x = true;
+$y = false;
+$z = $x and $y; 
+vả_dump($z) => true (vì toán tử = sẽ độ ưu tiên cao hơn and)
+05:45 - Logical Operators - Short Circuiting
+07:55 - Bitwise Operators (& | ^ ~ << >>)
+$x = 6;
+$y = 3;
+// 110
+// &
+// 011
+// ---
+// 010 = 2
+var_dump($x | $y);
+12:42 - Array Operators (+ == === != !==)
+15:32 - Execution Operator, Type Operator, & Nullsafe Operator
+
+PHP Operator Precedence & Associativity
+Thứ tự ưu tiên nếu độ ưu tiên bằng nhau thì thực hiện từ phải sang trái
+(đi từ trái sang phải hay p sang trái phụ thuộc vào cột Associativity)
+https://www.php.net/manual/en/language.operators.precedence.php
+
+
+
+Control Structures in PHP - Conditional Statements - if/else 
+If conditional statements
+Else Conditional Statements
+Alternative Syntax
+
+
+PHP Loops Tutorial - Break & Continue Statements 
+00:15 - While loop
+01:05 - Infinite loops
+01:32 - Break statement & use-case of an infinite loop
+02:05 - Break out of multiple levels of nested loops
+02:31 - Continue statement
+03:32 - Alternative while loop syntax
+03:47 - Do-While loop
+04:26 - For loop
+05:07 - Multiple expressions within for loop
+05:48 - Iterate over strings
+06:09 - Iterate over arrays
+06:23 - Performance concerns
+07:20 - Foreach loop
+08:38 - Overwriting array elements using assignment by reference
+09:15 - Something to be aware of - variable within the foreach loop is not destroyed
+10:30 - Iterate over associative arrays
+11:48 - Alternative foreach & for loop syntax
+
+PHP Match Expression - Match vs Switch - Full PHP 8 Tutorial
+- Sự khác nhau giữa biểu thức switch và match
+1: match là một biểu thức() và nó được ước tính thành một giá trị và do đó  nó có thể gán thành một biến
+khi nhảy vào một trường hợp nó sẽ ko chạy các trường hợp khác nên ko cần câu lệnh break
+<?php
+$food = 'cake';
+
+$return_value = match ($food) {
+    'apple' => 'This food is an apple',
+    'bar','name' => 'This food is a bar',
+    'cake' => 'This food is a cake',
+     default => 'Unknown',
+};
+
+var_dump($return_value);
+?>
+
+2: Trong switch cần có câu lệnh ngắt để tránh một số điều bất ngờ switch só sánh lỏng lẻo còn match so sanh chặt chẽ
+
+
+How To Include Files In PHP - Include and Require
+
+include sẽ sinh ra cảnh báo nhưng vẫn in ra giá trị
+require sẽ sinh ra lỗi và ko in ra giá trị
+
+00:00 - Include & Require
+00:42 - Syntax
+01:00 - Difference between include & require
+01:30 - How are files located/loaded
+02:13 - Difference between include_once, require_once & include, require
+02:35 - Example usage of require_once with the variable being overwritten if the file is included more than once
+04:13 - Bad practice
+04:48 - Return value of include & using return within the included file
+05:27 - Using include within HTML for code re-usability
+06:59 - Including file into a string using output control functions (storing HTML of the included file in a string instead of printing it)
+Đưa nội dung của một tệp vào một chuỗi
+ob_start();
+include './file.php';
+$nav = ob_get_clean();
+
+$nav = str_replace('About', 'About Us', $nav);
+
+var_dump($nav);
+echo $nav;
+
+
+How To Create Functions In PHP - Functions Tutorial
+00:00 - Functions
+00:36 - Creating functions
+01:10 - Return values from functions
+01:52 - Where to define functions
+02:14 - Declaring functions conditionally
+02:49 - Inner functions
+03:47 - Functions with the same name
+04:21 - Return types & strict types
+- return 
+declare(strict_types=1);
+
+function fooo(): int {
+   return 1;
+}
+
+06:13 - Nullable types
+declare(strict_types=1);
+
+function fooo(): ?int {
+   return null;
+}
+
+
+06:43 - Union types (type hinting multiple types)
+declare(strict_types=1);
+
+function fooo(): int|float|array {
+   return [1.5];
+}
+
+declare(strict_types=1);
+
+function fooo(): mixed {
+   return [1.5];
+}
+
+mixed là một kiểu đặc biệt trong PHP, cho phép hàm trả về một giá trị có thể là bất kỳ kiểu nào.
+
+07:05 - Mixed type
+
+PHP Function Parameters - Named Arguments - Variadic Functions & Unpacking
+RESOURCES
+Coercive typing with union types - https://www.php.net/manual/en/languag...
+Named arguments - https://www.php.net/manual/en/functio...
+RFC - https://wiki.php.net/rfc/named_params
+
+00:00 - Function parameters
+function foo($x, $y) {	 // tham số 
+    return $x * $y;
+}
+
+echo foo(5, 10) // đối số đang đc thông qua
+00:19 - Define function parameters
+00:45 - Parameters vs arguments
+01:04 - Type hinting
+01:39 - Union types
+02:25 - Default values
+03:01 - Passing arguments by value vs by reference
+04:00 - Variadic functions - splat operator - capture passed arguments
+06:47 - Argument unpacking with splat (elipsis / three dot) operator
+07:39 - PHP8 named arguments
+
