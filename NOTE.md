@@ -536,19 +536,44 @@ How To Create Functions In PHP - Functions Tutorial
 01:52 - Where to define functions
 02:14 - Declaring functions conditionally
 02:49 - Inner functions
+foo();
+bar(); //lỗi function undefined nếu commnet foo() lại
+
+function foo() {
+   echo 'Foo';
+   function bar() {
+	echo 'Bar';
+   }
+}
+
 03:47 - Functions with the same name
+Hàm cùng tên
+foo();
+bar(); //lỗi function ko thể truy cập foo()  (2)
+
+function foo() {
+   echo 'Foo';
+   function bar() {
+	echo 'Bar';
+	
+	function foo() { 
+		echo 'Foo2';
+	}
+   }
+}
+
 04:21 - Return types & strict types
 - return 
 declare(strict_types=1);
 
-function fooo(): int {
+function foo(): int {
    return 1;
 }
 
 06:13 - Nullable types
 declare(strict_types=1);
 
-function fooo(): ?int {
+function foo(): ?int {
    return null;
 }
 
@@ -582,13 +607,274 @@ function foo($x, $y) {	 // tham số
 }
 
 echo foo(5, 10) // đối số đang đc thông qua
+
 00:19 - Define function parameters
+
 00:45 - Parameters vs arguments
 01:04 - Type hinting
+declare(strict_types=1);
 01:39 - Union types
 02:25 - Default values
-03:01 - Passing arguments by value vs by reference
-04:00 - Variadic functions - splat operator - capture passed arguments
-06:47 - Argument unpacking with splat (elipsis / three dot) operator
-07:39 - PHP8 named arguments
+//Giá trị có đi default phải ở cuối ko được đứng trước tham số bắt buộc
+function foo(int|float $x, int|float $y = 1): int|float {
+   if($x % 2 === 0) {
+	$x / 2;
+    }
+    return $x * $y;
 
+}
+
+03:01 - Passing arguments by value vs by reference
+declare(strict_types=1);
+
+function foo(int|float $x, int|float $y): int|float {
+   if($x % 2 === 0) {
+	$x / 2;
+    }
+    return $x * $y;
+
+}
+
+$a = 6.0;
+$b = 7;
+
+echo foo($a, $b); -> 21
+var_dump($a, $b); -> float(6), int(7)
+// dùng tham chiếu
+declare(strict_types=1);
+function foo(int|float &$x, int|float $y): int|float {
+   if($x % 2 === 0) {
+	$x / 2;
+    }
+    return $x * $y;
+
+}
+
+$a = 6.0;
+$b = 7;
+
+echo foo($a, $b); -> 21
+var_dump($a, $b); -> float(3), int(7)
+04:00 - Variadic functions - splat operator - capture passed arguments
+declare(strict_types=1);
+function sum(int|float $x, int|float $y, ...$number): int|float {
+    return $x + $y;//
+    return $x + $y + array_sum($number);
+}
+
+
+echo foo($a, $b, 50);
+06:47 - Argument unpacking with splat (elipsis / three dot) operator
+declare(strict_types=1);
+function sum(int|float $x, int|float $y, int|float ...$number): int|float {
+    return $x + $y;//
+    return $x + $y + array_sum($number);
+}
+
+$number = [4,4,5,4,6.4];
+echo foo($a, $b, ...$number);
+07:39 - PHP8 named arguments
+declare(strict_types=1);
+function foo(int $x, int $y): int {
+   if($x % 2 === 0) {
+	$x / $y;
+    }
+    return $x;
+
+}
+
+$a = 6;
+$b = 3;
+
+echo foo(y: $y, x: $x);
+
+PHP Variable Scopes - Static Variables
+00:00 - Variable scope
+00:25 - Global scope
+$x = 5;
+include('script1.php);
+
+echo $x;
+01:00 - Local scope
+$x = 5;
+
+function foo() {
+    echo $x;
+}
+result -> warning: undefined $x in ...
+
+function foo() {
+    $x = 1;
+    echo $x;
+}
+
+function foo($x) {
+    echo $x;
+}
+
+
+01:41 - Using global keyword to access variables in the global scope
+function foo() {
+    global $x;
+    $x = 10 -> có thể thay đổi giá trị của biến global
+ 
+    echo $x;
+}
+
+function foo() {
+    echo $GLOBALS['x'];
+}
+
+02:12 - How are global variables stored & GLOBALS superglobal
+03:13 - Static variables
+- Biến tĩnh là biến thông thường có phạm vi cục bộ sự khác biệt là biến thông thường
+bị hủy bên ngoài ranh giới phạm vi trong khi biến tĩnh không bị hủy và nó vẫn giữ nguyên giá trị của nó
+
+vd: 
+
+function getValue() {
+    
+    $value = someVeryExpensiveFuntion();
+  
+    return $value;
+
+}
+
+function someVeryExpensiveFuntion() {
+   sleep(2);
+   echo 'processing';
+   return 10;
+}
+
+echo getValue() . '<br/>';
+echo getValue() . '<br/>';
+echo getValue() . '<br/>';
+resutl : 
+processing10
+processing10
+processing10
+
+//static
+function getValue() {
+    static $value = null;
+
+    if($value === null) {
+        $value = someVeryExpensiveFuntion();
+    }
+    return $value;
+
+}
+
+function someVeryExpensiveFuntion() {
+   sleep(2);
+   echo 'processing';
+   return 10;
+}
+
+echo getValue() . '<br/>'; 
+echo getValue() . '<br/>';
+echo getValue() . '<br/>';
+
+processing10
+10
+10
+
+
+Variable, Anonymous, Callable, Closure & Arrow Functions In PHP
+00:00 - Intro
+00:20 - Variable functions
+function sum(int|float ...$numbers): int|float {
+   return array_sum($numbers);
+}
+$x = 'sum';
+
+if(is_callable($x)) { //kiểm tra hàm có gọi được hay ko
+   echo $x(1, 2, 3, 4);
+} else {
+   echo 'Not callable';
+}
+
+
+
+01:49 - Anonymous functions
+- Hàm ẩn danh hay lamda là các hàm ko có tên nên trong 
+$x = 1;
+$sum = function (int|float ...$numbers): int|float use($x) { //use($x) sao chép biến $x
+echo $x;
+   return array_sum($numbers);
+}
+
+02:38 - Closures & accessing variables from the parent scope
+03:53 - Callable data type & callback functions
+$array = [1,2,3,4];
+$array2 = array_map(function($element) {
+   return $element * 2;
+}, $array);
+
+$x = function($element) {
+    return $element * 2;
+}
+
+function foo($element) {
+    return $element * 2;
+}
+
+$array2 = array_map($x, $array);
+or
+$array2 = array_map('foo', $array);
+
+vd:
+$sum = function (callable $callback, int|float ...$numbers): int|float { 
+   return $callback(array_sum($numbers));
+}
+
+function foo($element) {
+    return $element * 2;
+}
+
+echo $sum('foo', 1, 2, 3, 4);
+
+05:41 - Closure vs callable
+06:05 - Arrow functions
+
+
+How To Work With Dates & Time Zones
+RESOURCES
+Date Formats - https://www.php.net/manual/en/datetim...
+Time Zones - https://www.php.net/manual/en/timezon...
+Relative Formats - https://www.php.net/manual/en/datetim...
+
+CHAPTERS
+00:00 - Intro
+00:22 - Working with Unix timestamp
+01:45 - Formatting dates
+03:03 - Working with time zones
+04:07 - Using mktime function to get Unix timestamp value
+04:31 - Parsing dates using function strtotime
+05:18 - Parsing dates using function date_parse & date_parse_from_format to get more details about date
+
+
+Working With File System In PHP
+Docs for clearstatcache & list of affected functions - https://www.youtube.com/redirect?event=video_description&redir_token=QUFFLUhqbUF6X1VUdzdzV3c0UEsxZThhUmhJVzFFTmJTd3xBQ3Jtc0trS0k2cTQyQS1SR1hvWnM3Z1RmZnJHMkt3Wjc4VlV0VnZoZWJtNXMtWjFhbV93MFprczl5VmtEMTZPel9zWlhOQkxiQXJVMGEwZWJfUDR6T2pvNjRpTWtxdWNRWndtWXpuSFBRaEVBVkVmcThBYno3TQ&q=https%3A%2F%2Fwww.php.net%2Fmanual%2Fen%2Ffunction.clearstatcache.php&v=p7F2GgVxHc0
+Docs for fopen & modes - https://www.php.net/manual/en/function.fopen.php
+Filesystem functions - https://www.php.net/manual/en/ref.filesystem.php
+
+CHAPTERS
+00:00 - List of all files & directories - scandir
+$dir = scandir(__DIR__);
+is_dir($dir[2]);
+mkdir('foo'); tao thu muc
+
+
+00:44 - Check if file is a directory or a file - is_dir / is_file
+00:58 - Create & delete directories - mkdir / rmdir
+02:02 - Check if file or directory exists & print filesize - file_exists / filesize
+02:28 - Clear cached values of functions like filesize - clearstatcache
+03:30 - Open files & resource data type - fopen
+04:25 - Using error control operator to suppress warnings
+05:25 - Read files line by line - fgets / fclose
+06:25 - Read csv files - fgetcsv
+07:02 - Get file contents & store in a variable - file_get_contents
+07:57 - Write content to a file - file_put_contents
+08:50 - Delete, copy, rename & move files - unlink / copy / rename
+09:34 - Get information about a file - pathinfo
