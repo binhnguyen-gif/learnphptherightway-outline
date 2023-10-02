@@ -1,0 +1,4 @@
+Upload liên tục
+- Gắn captcha 
+- Gắn RateLimiter
+- Save token -> Kiểm soát session upload

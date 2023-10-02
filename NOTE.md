@@ -26,7 +26,7 @@ echo "Joe's Invoice"; (true)
 
 05:45 Variables
 
-$name "tiger";
+$name = "tiger";
 echo $name;
 
 06:26 $this variable
@@ -150,13 +150,17 @@ https://www.php.net/manual/en/types.comparisons.php
 # string - 'hello world'
 # 4 Compund Types
 # array
+Dùng echo sẽ báo lỗi cố chuyển đổi arr thành chuỗi
+Sử dụng print_r để hiển thị mảng
 # object
 # callable
 # iterable
+3 loại đối tượng 
 # 2 Special Types
 Được sử dụng dụng để dễ đọc chúng được trộn lẫn và không có giá trị
 # resource
 # null
+Loại biến được xác đinh bởi ngữ cảnh mà biến được sử dụng 
 00:19 - Dynamically Types vs Statically Typed
 01:18 - Scalar Types (bool, int, float, string)
 03:05 - Get The Type Of The Variable (gettype, var_dump)
@@ -414,7 +418,7 @@ var_dump(fdiv($x / $y)); result => float(INF)
 $x = 10.5;
 $y = 2.9;
 var_dump($x % $y);  result => 0;
-var_dump(fmod($x % $y)); => float(1.80000000000003)
+var_dump(fmod($x % $y)); => float(1.80000000000003);
 
 04:35 - Assignment Operators (= += -= *= /= %= **=)
 07:12 - String Operators (. .=)
@@ -500,7 +504,18 @@ $return_value = match ($food) {
 var_dump($return_value);
 ?>
 
-2: Trong switch cần có câu lệnh ngắt để tránh một số điều bất ngờ switch só sánh lỏng lẻo còn match so sanh chặt chẽ
+2: Trong switch cần có câu lệnh ngắt để tránh một số điều bất ngờ switch só sánh 
+lỏng lẻo còn match so sanh chặt chẽ.
+
+PHP Return, Declare & Tickable Statements - Full PHP 8 Tutorial
+
+00:00 - Return statement
+return kết thúc và trả về giá trị
+nếu chỉ return; thì nó sẽ dùng thực thi tại đó
+01:41 - Declare statement (ticks directive)
+03:22 - Declare statement (encoding directive)
+03:43 - Declare statement (strict_types directive)
+05:45 - Goto statement
 
 
 How To Include Files In PHP - Include and Require
@@ -729,7 +744,7 @@ function foo() {
 03:13 - Static variables
 - Biến tĩnh là biến thông thường có phạm vi cục bộ sự khác biệt là biến thông thường
 bị hủy bên ngoài ranh giới phạm vi trong khi biến tĩnh không bị hủy và nó vẫn giữ nguyên giá trị của nó
-
+biến tính sẽ lưu vào bộ nhớ đệm 
 vd: 
 
 function getValue() {
@@ -781,12 +796,18 @@ processing10
 
 
 Variable, Anonymous, Callable, Closure & Arrow Functions In PHP
+Tham số, đối số
+Hàm biến , hàm ẩn danh, arrow function
 00:00 - Intro
 00:20 - Variable functions
+hàm biến (variable function) là một loại hàm mà tên của nó được lưu trong một biến và sau đó có thể được gọi bằng biến đó như một hàm. 
 function sum(int|float ...$numbers): int|float {
    return array_sum($numbers);
 }
 $x = 'sum';
+
+Hàm is_callable($x) trong PHP được sử dụng để kiểm tra xem biến $x có thể được gọi như một hàm hoặc không.
+Nó trả về true nếu biến $x có thể được gọi và false nếu không.
 
 if(is_callable($x)) { //kiểm tra hàm có gọi được hay ko
    echo $x(1, 2, 3, 4);
@@ -797,12 +818,17 @@ if(is_callable($x)) { //kiểm tra hàm có gọi được hay ko
 
 
 01:49 - Anonymous functions
-- Hàm ẩn danh hay lamda là các hàm ko có tên nên trong 
+- Hàm ẩn danh hay lamda là các hàm ko có tên nên trong , phải kết thúc bằng dấu ;
+hàm ẩn danh có thể truy cập đến các biến cục bộ bằng cách sử dụng từ khóa use
 $x = 1;
+function (int|float ...$numbers): int|float use($x) { //use($x) sao chép biến $x
+echo $x;
+   return array_sum($numbers);
+};
 $sum = function (int|float ...$numbers): int|float use($x) { //use($x) sao chép biến $x
 echo $x;
    return array_sum($numbers);
-}
+};
 
 02:38 - Closures & accessing variables from the parent scope
 03:53 - Callable data type & callback functions
@@ -846,9 +872,12 @@ Relative Formats - https://www.php.net/manual/en/datetim...
 
 CHAPTERS
 00:00 - Intro
-00:22 - Working with Unix timestamp
+time(); print ra số nguyên là dấu thời gian unix timestamp
+00:22 - Working with Unix timestamp tính bằng s kể từ tháng 1-1-1970
 01:45 - Formatting dates
+date('Y-m-d', $currentTime);
 03:03 - Working with time zones
+date_default_timezone_set('UTC');
 04:07 - Using mktime function to get Unix timestamp value
 04:31 - Parsing dates using function strtotime
 05:18 - Parsing dates using function date_parse & date_parse_from_format to get more details about date
@@ -868,6 +897,7 @@ mkdir('foo'); tao thu muc
 
 00:44 - Check if file is a directory or a file - is_dir / is_file
 00:58 - Create & delete directories - mkdir / rmdir
+mkdir('foo/bar', recursive: true);
 02:02 - Check if file or directory exists & print filesize - file_exists / filesize
 02:28 - Clear cached values of functions like filesize - clearstatcache
 03:30 - Open files & resource data type - fopen
@@ -878,3 +908,32 @@ mkdir('foo'); tao thu muc
 07:57 - Write content to a file - file_put_contents
 08:50 - Delete, copy, rename & move files - unlink / copy / rename
 09:34 - Get information about a file - pathinfo
+
+How To Work With PHPs Configuration File - PHP.INI - Full PHP 8 Tutorial
+RESOURCES
+https://www.php.net/manual/en/ini.list.php
+https://www.php.net/manual/en/ini.core.php
+
+PHP Classes & Objects - Typed Properties - Constructors & Destructors - Full PHP 8 Tutorial
+Đối tượng là instance của class 
+-Khả năng cấu trúc mã theo cách tốt hơn dễ dàng duy trì việc gỡ lỗi mở rộng thử nghiệm 
+
+CHAPTERS
+00:00 - Objects & Classes
+00:56 - Creating class & object
+02:58 - Class properties
+04:43 - Typed properties
+07:50 - Class constructor, $this, & constructor arguments
+09:54 - Methods
+11:34 - Method chaining
+13:44 - Creating objects using variables
+14:05 - Creating multiple objects of the same class
+14:40 - Class destructor
+18:05 - stdClass & object casting
+
+
+Constructor Property Promotion - Nullsafe Operator - Full PHP 8 Tutorial
+
+CHAPTERS
+00:00 - Constructor Property Promotion
+03:50 - Nullsafe operator
