@@ -1,0 +1,1266 @@
+0:05
+let's talk about namespaces when you
+0:07
+define a function a constant or a class
+0:09
+without a namespace definition by
+0:11
+default they will be put in a global
+0:13
+space
+0:14
+so for example here i have a transaction
+0:16
+class that is within payment gateway
+0:18
+stripe directory and this class is just
+0:21
+an empty class for now
+0:22
+and i'm var dumping the new instance of
+0:25
+that class now as you can see this class
+0:27
+does not have any namespace defined to
+0:29
+it so php will try to locate this file
+0:31
+in the global space
+0:33
+and it finds it there and therefore
+0:35
+everything works
+0:36
+however this might cause name collision
+0:38
+where you might have multiple classes
+0:40
+that have the same name to show you this
+0:42
+in action i created another folder here
+0:45
+called
+0:45
+paddle which is another gateway and i
+0:47
+created another class transaction in
+0:49
+there now if i go to index.php
+0:51
+everything still works if i refresh the
+0:53
+page
+0:54
+but if i try to require the transaction
+0:56
+from the paddle class as well
+0:58
+and even if i comment this out because
+1:00
+php will not know which one to
+1:02
+instantiate right because you're
+1:03
+including two
+1:04
+classes with the same name but when you
+1:06
+require two classes that have the same
+1:08
+name and they are not namespaced meaning
+1:10
+that they're in the global space
+1:12
+this will cause an error so if i refresh
+1:14
+the page we'll get cannot declare class
+1:16
+transaction
+1:17
+and before namespaces were introduced
+1:18
+often this was solved by simply
+1:20
+prefixing the class name with the vendor
+1:22
+name
+1:23
+or the namespace name within the class
+1:25
+in addition to the name collision fixes
+1:27
+it also lets you better structure and
+1:30
+organize your classes and code
+1:32
+same thing would happen with the
+1:33
+constants or functions so if i had a
+1:36
+function here called full
+1:37
+and define the same function in here and
+1:40
+we refresh the page we would get the
+1:42
+similar error but this time about the
+1:44
+function and same thing would happen
+1:46
+about the constants so if i had constant
+1:48
+foo equals to one and the same thing
+1:51
+here and let's set this
+1:52
+equals to 2 and let's remove the
+1:54
+functions and if we refresh we get the
+1:56
+same error that constant foo already is
+1:59
+defined so as you can see this can
+2:01
+happen
+2:01
+for classes which includes abstract
+2:03
+classes interfaces
+2:05
+traits functions and constants we can
+2:07
+use namespaces to fix this problem think
+2:10
+of namespaces as virtual directory
+2:12
+structures for your classes
+2:14
+we can define namespaces using the
+2:16
+namespace keyword
+2:17
+on top of the file before any code and
+2:19
+after declare statement so if you're
+2:22
+declaring your strict types or using
+2:24
+declare statement here
+2:25
+the namespace has to go after that and
+2:27
+before any code so you would put it
+2:29
+somewhere here
+2:30
+namespace and then you just put your
+2:32
+namespace here now you can just have a
+2:34
+single namespace so you could
+2:36
+call this your name or your package name
+2:38
+or whatever you want so
+2:39
+i could call this geo for example and
+2:41
+now on the index.php let me comment this
+2:44
+out when i include this panel the
+2:46
+location does not change right the
+2:47
+location is still the same thing
+2:50
+but when i var dump this if i refresh
+2:52
+the page
+2:53
+i'm going to get class transaction not
+2:55
+found error and the reason for this
+2:57
+is because php is looking for the
+3:00
+transaction class by default
+3:02
+in global space we have two ways to fix
+3:04
+this one is we need to add
+3:06
+qualifying class name including the
+3:08
+namespace in here so we would do
+3:10
+something like
+3:11
+geo backslash transaction and if we
+3:13
+refresh that will work
+3:15
+or another way is we could import this
+3:18
+class and we'll talk about that in a
+3:20
+second now in addition to having this
+3:21
+single namespace name you could have sub
+3:24
+namespaces which makes more sense and
+3:26
+you can make
+3:26
+your namespaces follow the directory
+3:29
+structure
+3:29
+so in this case we have payment gateway
+3:32
+and paddle so
+3:33
+in here we can do instead of geo we can
+3:35
+do payment
+3:37
+gateway backslash paddle and if you
+3:40
+wanted or we're working on an
+3:42
+open source package you would probably
+3:43
+name space everything with your name or
+3:46
+your package name as i mentioned so you
+3:47
+would put something like
+3:49
+my package name in the beginning and
+3:51
+then
+3:52
+everything else but we'll keep it simple
+3:53
+for now now let's add the same namespace
+3:56
+to
+3:56
+stripe here and we'll just need to
+3:58
+change this to stripe
+4:00
+and if we go here and uncomment this
+4:03
+we need to change this to payment
+4:06
+gateway
+4:07
+stripe transaction and if we refresh the
+4:09
+page now we're no longer getting the
+4:11
+error that we're declaring the same
+4:13
+class twice
+4:14
+and it actually initializes the stripe
+4:16
+transaction class and we see that object
+4:19
+printed right here so everything is
+4:20
+working
+4:21
+just something to note here that i
+4:23
+matched my namespace to the folder
+4:25
+structure which is why i said to think
+4:27
+of namespaces as virtual directory
+4:29
+structures
+4:30
+this is not a requirement you can put
+4:32
+the file anywhere you want and still
+4:34
+namespace it any way you want but it is
+4:37
+recommended and also a standard to match
+4:40
+namespace with the folder structure the
+4:42
+other way you could do this
+4:43
+is by importing the transaction class
+4:46
+from the namespace by using the use
+4:48
+keyword so you could do
+4:49
+use and then put the fully qualifying
+4:52
+class name here so payment gateway
+4:54
+stripe transaction and now you don't
+4:57
+need to do this
+4:58
+you can simply do new transactions so if
+5:00
+we refresh the page
+5:01
+everything still works in addition to
+5:03
+name spacing and importing classes you
+5:05
+can name space
+5:06
+constants and functions and import them
+5:09
+as well though
+5:10
+this is not widely used and i personally
+5:12
+don't encourage using it so i'm not
+5:14
+going to show examples of it but
+5:15
+basically you could name space your
+5:17
+custom functions and constants and then
+5:20
+import them using use and then function
+5:23
+and specify the function name after your
+5:25
+namespace
+5:26
+or you could do the same thing for
+5:27
+constants using use const
+5:29
+if you want to know more about this i
+5:31
+will leave the links in the description
+5:33
+and you can check it out
+5:34
+so let's move on to instantiating
+5:36
+classes that are within the
+5:38
+same namespaces so for example let's
+5:40
+create a class here
+5:41
+called customerprofile and it is in the
+5:44
+same namespace panel and in the paddle
+5:47
+transaction class i'm going to close out
+5:49
+the stripe transaction so we don't get
+5:50
+confused so we have
+5:52
+the paddle transaction class open and
+5:54
+within the paddle transaction class
+5:56
+we want to use the customer class in
+5:58
+that case you don't need to specify the
+6:00
+fully qualifying class name
+6:02
+you can simply reference to the class
+6:04
+using the class name
+6:06
+so we could do var dump new customer
+6:09
+profile
+6:10
+and this will work let me go to
+6:11
+index.php and change this to
+6:14
+paddle and if we refresh the page i'm
+6:16
+getting fatal error class not found and
+6:18
+that's because i forgot to include this
+6:20
+file in the index.php so we need to do
+6:23
+require once parallel customer profile
+6:26
+or we could include it within the
+6:28
+transaction class but let's just include
+6:31
+everything in the index.php for now and
+6:33
+then we'll see how easy it is to do this
+6:35
+with autoloading in the next lesson so
+6:37
+now if you refresh the page
+6:39
+everything works and as you can see we
+6:40
+have the customer profile object here
+6:43
+and we did not have to specify the fully
+6:45
+qualifying class name
+6:46
+and we did not need to import this and
+6:48
+that works because php will try to load
+6:51
+this
+6:51
+from the current local namespace if you
+6:54
+are in a namespace file or a class
+6:56
+and in this case we are in a namespaced
+6:58
+file and therefore it's trying to load
+7:00
+this from the current namespace which is
+7:02
+this
+7:03
+and this class exists in the current
+7:04
+namespace and it works
+7:06
+if we were to remove the namespace from
+7:08
+here and we go to index.php and let's
+7:11
+remove it from here as well and let me
+7:13
+comment out the stripe
+7:15
+transaction for now so now we have only
+7:17
+paddle transaction so we're not going to
+7:19
+get the
+7:20
+error about having the same class name
+7:22
+but if i refresh the page we're going to
+7:24
+get
+7:25
+an error that customer profile class is
+7:27
+not found so what's happening here is
+7:29
+that php is trying to load this from the
+7:31
+global space and this does not exist in
+7:33
+the global space because customer
+7:35
+profile is name spaced to payment
+7:37
+gateway paddle
+7:38
+if i were to remove the namespace from
+7:40
+here as well then everything will work
+7:42
+so let's revert that back and let's
+7:44
+change this back
+7:45
+as well and everything still works so
+7:47
+because php will try to load classes
+7:50
+from the current namespace when you're
+7:51
+in a namespace
+7:52
+file if you were to access php's
+7:55
+built-in classes you will need to add a
+7:57
+backslash to tell php to load it from
+8:00
+the global space
+8:01
+or you will need to import them for
+8:02
+example there is a php's built-in class
+8:05
+called
+8:05
+datetime and we haven't covered this yet
+8:07
+and we'll get into that
+8:09
+later in this course but this is the
+8:11
+class that allows you to work with dates
+8:13
+in php now if i did this and we are in a
+8:16
+namespace
+8:16
+file this is not going to work and as
+8:18
+you can see my ide is highlighting this
+8:20
+letting me know that this class does not
+8:23
+exist and if i refresh the page we're
+8:24
+going to get an error and let's see what
+8:26
+happens let's read the error message
+8:27
+so it says that class payment gateway
+8:30
+paddle date time is not found so as you
+8:33
+can see what php is trying to do is that
+8:35
+it's trying to locate
+8:36
+datetime class in the current namespace
+8:39
+and the current namespace as mentioned
+8:40
+before
+8:41
+is this right here so payment gateway
+8:44
+paddle datetime class does not exist and
+8:46
+therefore it's throwing an error to fix
+8:48
+this we need to add a backslash here
+8:50
+and backslash here basically tells php
+8:53
+to not load the date time from the local
+8:55
+namespace but go to the global namespace
+8:58
+and if we refresh now it works another
+9:00
+way to fix this
+9:01
+is to simply import datetime and then we
+9:04
+can remove the backslash from here
+9:06
+and it will still work on the other hand
+9:08
+if you actually had a daytime class that
+9:10
+existed within the same namespace so
+9:12
+let's quickly create one
+9:14
+so i can show you an example so i'm
+9:16
+going to create a datetime class here
+9:18
+and it's within the same namespace and
+9:19
+let's remove this and in this case when
+9:22
+we do new date time it's going to use
+9:23
+the local date time class because we're
+9:26
+in the local namespace and if i refresh
+9:28
+we're going to get this error again
+9:29
+because i forgot to
+9:30
+include it so let's add it right here
+9:33
+date time
+9:34
+let's refresh and everything works but
+9:36
+this might not always be ideal because
+9:38
+you might want to use
+9:39
+php's built-in class instead so in that
+9:42
+case you would need to use
+9:43
+the backslash in which case you would
+9:45
+use php's built-in
+9:47
+class or as mentioned before you would
+9:48
+need to import this using
+9:50
+use date time and now if you refresh it
+9:53
+will still work
+9:54
+let me show you an example when you try
+9:55
+to create an object of another class
+9:57
+that is in another namespace so for
+9:59
+example i created a class called
+10:01
+email under the notification namespace
+10:04
+and let's try to create a new object of
+10:05
+email within our constructor in the
+10:08
+transaction class so if we go here and
+10:10
+we type notification
+10:12
+email my id is highlighting this letting
+10:14
+me know that something isn't right and
+10:16
+this is correct we're going to get an
+10:18
+error if we go to the browser and
+10:19
+refresh the page we're going to get the
+10:21
+fatal error and let's read the error
+10:22
+message notice the
+10:23
+path here to the email class it's trying
+10:26
+to locate the email class
+10:28
+under payment gateway paddle
+10:30
+notification
+10:31
+namespace but we did not specify that
+10:33
+right we're saying that we want to
+10:35
+create an object of email class from
+10:37
+notification namespace
+10:39
+this is because we're using the
+10:40
+qualified name and not the full
+10:42
+qualified name
+10:43
+and the difference between the qualified
+10:45
+and fully qualified name
+10:46
+is that fully qualified name is prefixed
+10:49
+by
+10:49
+backslash which indicates that this is
+10:52
+the full
+10:52
+namespace to that class when you use the
+10:55
+qualified name
+10:56
+instead of the fully qualified name then
+10:59
+what php will do is that it will try to
+11:01
+see if there is an import statement that
+11:04
+resolves to notification namespace
+11:06
+and if it does then this would work but
+11:08
+in this case we don't have a new
+11:09
+statement where we are importing the
+11:11
+notification namespace and therefore by
+11:13
+default
+11:14
+php will prepend the current namespace
+11:16
+to this qualified name so in the end it
+11:18
+becomes payment gateway paddle
+11:20
+notification email and because email
+11:23
+class does not exist
+11:24
+in that namespace we get this error so
+11:26
+we could fix this two ways one is we
+11:28
+could prepend it with the
+11:29
+backslash to make it fully qualified
+11:32
+name or we could simply import it and
+11:33
+then it would work
+11:34
+i'm going to leave the link to this
+11:36
+documentation page that explains the
+11:38
+name resolution rules so if we look at
+11:40
+it here we have the unqualified name
+11:42
+which is just a class name without any
+11:44
+namespace separator or identifier then
+11:47
+we have the qualified name which has the
+11:49
+namespace and then the class name and
+11:51
+this is the example
+11:53
+that we just went over with and then we
+11:54
+have the fully qualified name
+11:56
+where we have the namespace separator in
+11:58
+the beginning which is
+12:00
+the backslash right here and then we
+12:02
+have all these rules right here that you
+12:03
+could read up and see
+12:05
+how it gets resolved let's see some
+12:07
+examples when working with functions
+12:09
+as you remember if we deleted this
+12:10
+datetime class here
+12:12
+and removed it from the index.php and
+12:14
+within our transaction.php we did new
+12:17
+datetime and we removed the use
+12:19
+statement we would get an error right
+12:21
+because it's looking at the local
+12:22
+namespace and the datetime class does
+12:24
+not exist what happens if you use php's
+12:27
+built-in functions what if we did
+12:28
+something like
+12:30
+explode which as you know splits the
+12:32
+string based on the delimiter and
+12:33
+returns an array so how would this get
+12:35
+resolved if we refresh the page
+12:37
+we get the array of two elements hello
+12:39
+and world which means that it's
+12:41
+resolving this from the global space
+12:43
+using php's built-in explode function
+12:45
+but how come it doesn't work that way
+12:47
+when working with classes
+12:48
+so what happens is that for classes php
+12:51
+will try
+12:52
+to locate them in the local namespace
+12:54
+and if it doesn't exist it will throw
+12:56
+you an error unless you had the use
+12:57
+statement where you imported that class
+12:59
+but with functions if the function does
+13:02
+not exist in the local namespace then it
+13:04
+falls back to the global namespace and
+13:06
+in this case explode does not exist in
+13:08
+the local namespace and therefore he
+13:10
+falls back to the global namespace and
+13:12
+uses php's built-in function
+13:14
+now you could override this and create a
+13:16
+custom function
+13:17
+called explode which accepts the
+13:20
+separator
+13:21
+and the string for now let's just do
+13:24
+return
+13:24
+full so if we refresh the page it's
+13:26
+printing foo and not the array of hello
+13:29
+and world
+13:30
+because it's resolving to the local
+13:32
+explode function
+13:33
+within the local namespace instead of
+13:36
+using the php's built-in function from
+13:38
+the global namespace
+13:39
+now this sometimes can be intended but
+13:41
+sometimes can cause
+13:42
+unexpected bugs so you would need to
+13:44
+prefix this with backslash to ensure
+13:47
+that you're using
+13:48
+php's built-in function from the global
+13:50
+space instead of the locally defined
+13:52
+function in that namespace so if i
+13:54
+refresh we're going to get the array
+13:56
+back which is one of the reasons why you
+13:58
+would see
+13:58
+some developers use backslash when using
+14:01
+php's built-in functions
+14:03
+in namespace classes another reason why
+14:05
+they would prefix php's built-in
+14:07
+functions with backslash is the
+14:09
+possible speed improvement because
+14:12
+you're telling php exactly where to load
+14:14
+that function from
+14:16
+and php does not have to resolve it
+14:18
+which could have positive impact on
+14:20
+performance but very negligible
+14:22
+all right let's move on to aliasing
+14:24
+let's get rid of this
+14:25
+explode function from here and let's
+14:27
+also remove this from here
+14:28
+and let's go to index.php and let's
+14:31
+assume that for whatever reason we
+14:34
+needed to use
+14:35
+both transaction classes right now we
+14:37
+are creating an
+14:38
+object of the paddle transaction class
+14:41
+but let's say we also needed to create a
+14:43
+transaction
+14:44
+from stripe so we would do use stripe
+14:47
+transaction and let's say parallel
+14:50
+transaction
+14:52
+equals new transaction and then
+14:55
+stripe transaction equals new
+14:58
+transaction and let's fire dump both
+15:00
+paddle and stripe transactions now as
+15:02
+you can see there is already something
+15:03
+wrong here my id
+15:04
+is underlining this here and let's
+15:06
+refresh the page and we're getting the
+15:08
+similar error message that states that
+15:10
+transaction class name already exists
+15:12
+and it's in use so what's happening here
+15:14
+is that we're importing two transaction
+15:16
+classes that have the same name
+15:18
+so php would not know which one to use
+15:20
+to create your objects so it doesn't
+15:22
+even get to this point
+15:24
+it fails right here and this can happen
+15:26
+in a lot of cases this might not be the
+15:27
+best example for it because you would
+15:29
+not use two transaction classes in the
+15:31
+same file but this can certainly happen
+15:33
+for other classes where you might have
+15:35
+two classes that share the same name
+15:37
+and you want to use both of them in the
+15:39
+same file this can be fixed by aliasing
+15:42
+one of the classes and you're able to do
+15:44
+that in php so in here we can do
+15:47
+payment gateway stripe transaction as
+15:50
+stripe transaction so now when we do new
+15:53
+transaction this will always refer to
+15:55
+the paddle transaction so if we refresh
+15:57
+the page
+15:57
+both of these are parallel transaction
+15:59
+objects but now we could change the
+16:01
+second one to strike transaction and if
+16:04
+we refresh now we get paddle transaction
+16:06
+and stripe
+16:06
+transaction aliasing can also be used to
+16:09
+deal with
+16:10
+long class names another use case for
+16:12
+aliasing would be that if we were
+16:14
+inside our payment gateway paddle
+16:17
+transaction class
+16:18
+and you are using some kind of package
+16:21
+or a library
+16:22
+that also has the transaction class in
+16:24
+there and you want to use that
+16:26
+transaction class or extend from in your
+16:28
+transaction class then you would need to
+16:30
+do something like use
+16:32
+vendor name transaction and this would
+16:35
+not work of course because your current
+16:37
+class name is transaction and you're
+16:39
+trying to import another class with the
+16:41
+same name and you would get the same
+16:43
+error so this is where you would use
+16:45
+aliasing as well you would give it a
+16:46
+nickname so you would say as
+16:48
+vendor transaction and you could name
+16:51
+this whatever you want but vendor would
+16:52
+be usually the
+16:54
+name of the package or the author of the
+16:56
+library and then you would use
+16:57
+this class within your transaction class
+17:00
+we actually have another transaction
+17:02
+class and we can simulate
+17:04
+this so we could actually use the
+17:06
+payment gateway
+17:07
+stripe transaction class and if we don't
+17:10
+alias it
+17:11
+as you can see it's already underlining
+17:13
+it and if we refresh the page we're
+17:15
+going to get the same error but if we do
+17:17
+as
+17:18
+paddle transaction now everything will
+17:20
+still work
+17:21
+so aliasing can be very useful if you're
+17:24
+importing multiple classes from the same
+17:26
+namespace you could actually group them
+17:28
+together
+17:28
+so for example let's say that we needed
+17:30
+a customer profile
+17:32
+within our index.php we would typically
+17:34
+do something like use payment
+17:36
+gateway paddle customer profile
+17:39
+and then here we would do paddle
+17:42
+customer
+17:43
+profile equals new customer profile and
+17:46
+let's bar
+17:46
+dump that and it works but notice here
+17:49
+that we are importing
+17:50
+two classes from the paddle namespace
+17:53
+from the payment gateway paddle
+17:54
+namespace we could actually combine this
+17:56
+and this together and simply put it in
+17:59
+square
+18:00
+bracket syntax so transaction would go
+18:02
+inside square brackets and then you can
+18:04
+put comma
+18:04
+and the rest of the classes that you
+18:06
+want to import along with transactions
+18:08
+so in this case there would be customer
+18:10
+profile and we can get rid of this
+18:12
+and if we refresh everything will still
+18:14
+work another way you could do this
+18:16
+instead of grouping them into a single
+18:18
+line you could simply
+18:19
+import the namespace itself so you could
+18:22
+remove this
+18:23
+and now we have the namespace imported
+18:25
+so in here you could just use the
+18:26
+qualifying name so you could prefix with
+18:29
+a namespace like this
+18:30
+and same for the customer profile and
+18:33
+this will work as well if you refresh
+18:35
+everything will work so in some cases
+18:37
+this is the preferred way where you're
+18:39
+importing
+18:39
+a lot of classes from the same namespace
+18:41
+and instead of
+18:42
+listing all of them up here you just
+18:44
+import the namespace and then prefix
+18:47
+your classes with that namespace
+18:49
+however i prefer to have everything
+18:51
+imported in the use statements because
+18:53
+that way when i open a class i can see
+18:55
+what are all the classes that this
+18:57
+specific
+18:58
+class or file depends on and another
+19:00
+thing to note about the aliasing is that
+19:02
+it could actually alias the entire
+19:04
+namespace as well so in here you could
+19:06
+say
+19:07
+as pa for example and in here you could
+19:10
+just do pa
+19:11
+transaction npa customer profile and if
+19:14
+you refresh everything will still work
+19:16
+before we wrap up this video i want to
+19:18
+quickly let you know that importing
+19:19
+rules are profile bases what that means
+19:22
+is that if we were to include another
+19:24
+file here
+19:25
+something like include views layout.php
+19:29
+the included file here will not inherit
+19:32
+the classes that were imported in the
+19:34
+parent file so if you want to use these
+19:36
+classes in the included file you would
+19:38
+need to import them there as well
+19:40
+so this is it for this video i'm going
+19:42
+to leave some links in the description
+19:44
+if you want to read more about
+19:45
+namespaces i did not cover some things
+19:47
+like
+19:48
+having multiple namespaces in the same
+19:50
+file because it is not widely used and
+19:52
+it is not recommended and i personally
+19:54
+don't use it and don't encourage it so i
+19:56
+decided not to cover them in this video
+19:58
+so let me know in the comments what do
+19:59
+you think about namespaces and if you
+20:01
+have any feedback thank you so much for
+20:03
+watching please give this video a thumbs
+20:05
+up if you enjoyed it and subscribe if
+20:07
+you haven't subscribed yet i'll see you
+20:09
+on the next video where we're going to
+20:10
+talk about psr
+20:11
+standards auto loading and composer
