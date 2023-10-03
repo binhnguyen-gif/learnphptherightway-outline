@@ -6,8 +6,8 @@ require_once './PaymentGetWay/Paddle/CustomerProfile.php';
 
 //use PaymentGetway\Paddle\Transaction;
 //use PaymentGetway\Paddle AS PA;
-use app\PaymentGetway\Paddle\{Transaction};
-use app\PaymentGetway\Paddle\CustomerProfile;
+use App\PaymentGetway\Paddle\{Transaction};
+use App\PaymentGetway\Paddle\CustomerProfile;
 use app\PaymentGetway\Stripe\Transaction as StripeTransaction;
 
 // bí danh

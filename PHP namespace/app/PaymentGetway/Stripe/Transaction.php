@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace app\PaymentGetway\Stripe;
+namespace App\PaymentGetway\Stripe;
 
 class Transaction
 {

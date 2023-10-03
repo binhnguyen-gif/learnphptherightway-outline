@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace app\PaymentGetway\Paddle;
+namespace App\PaymentGetway\Paddle;
 
 class DateTime
 {

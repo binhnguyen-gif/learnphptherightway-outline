@@ -38,11 +38,26 @@ declare(strict_types=1);
 require __DIR__ . '/../vendor/autoload.php';
 
 use App\PaymentGetway\Paddle\Transaction;
+//
+//$paddleTransaction = new Transaction();
+//
+//$id = new \Ramsey\Uuid\UuidFactory();
+//
+//echo $id->uuid4();
+//
+//var_dump($paddleTransaction);
 
+//Class Constants
+// truy cập hằng số ở cấp đồ lớp
+//echo Transaction::STATUS_PAID;
+//truy cập hằng số ở cấp đôk dối tượng
 $paddleTransaction = new Transaction();
 
-$id = new \Ramsey\Uuid\UuidFactory();
+//$paddleTransaction->setStatus(Transaction::STATUS_PAID);
+$paddleTransaction->setStatus(\App\Enums\Status::STATUS_PAID);
+//$paddleTransaction->setStatus('đasda');
 
-echo $id->uuid4();
+//echo $paddleTransaction::STATUS_PAID;
 
-var_dump($paddleTransaction);
+echo $paddleTransaction::class;
+//https://wiki.php.net/rfc/enumerations
